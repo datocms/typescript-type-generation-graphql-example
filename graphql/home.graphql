@@ -1,0 +1,27 @@
+query Home {
+  allArticles {
+    id
+    title
+    _createdAt
+    _publishedAt
+    image {
+      ...responsiveImage
+    }
+  }
+}
+
+fragment responsiveImage on FileFieldInterface {
+  responsiveImage(imgixParams: { w: 100, h: 100, fit: crop }) {
+    alt
+    aspectRatio
+    base64
+    bgColor
+    height
+    sizes
+    src
+    srcSet
+    title
+    webpSrcSet
+    width
+  }
+}
