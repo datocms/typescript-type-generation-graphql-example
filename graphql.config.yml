@@ -22,3 +22,6 @@ generates:
             MetaTagAttributes: Record<string, string>
             UploadId: string
       - typed-document-node
+    config:
+      namingConvention:
+        enumValues: './pascalCaseWithUnderscores'
