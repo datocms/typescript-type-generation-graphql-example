@@ -44,6 +44,7 @@ export type ArticleModelFilter = {
   id?: InputMaybe<ItemIdFilter>
   image?: InputMaybe<FileFilter>
   slug?: InputMaybe<SlugFilter>
+  subtitle?: InputMaybe<StringFilter>
   title?: InputMaybe<StringFilter>
 }
 
@@ -66,6 +67,8 @@ export enum ArticleModelOrderBy {
   _UpdatedAtDesc = "_updatedAt_DESC",
   IdAsc = "id_ASC",
   IdDesc = "id_DESC",
+  SubtitleAsc = "subtitle_ASC",
+  SubtitleDesc = "subtitle_DESC",
   TitleAsc = "title_ASC",
   TitleDesc = "title_DESC",
 }
@@ -90,6 +93,7 @@ export type ArticleRecord = RecordInterface & {
   id: Scalars["ItemId"]
   image?: Maybe<FileField>
   slug: Scalars["String"]
+  subtitle: Scalars["String"]
   title: Scalars["String"]
 }
 
