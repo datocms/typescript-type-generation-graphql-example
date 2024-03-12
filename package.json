@@ -1,6 +1,6 @@
 {
   "name": "typescript-type-generation-graphql-example",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "generate-ts-types": "graphql-codegen --config graphql.config.yml",

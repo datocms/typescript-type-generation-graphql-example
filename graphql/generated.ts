@@ -11,15 +11,15 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
-  BooleanType: any
-  CustomData: any
-  DateTime: any
-  FloatType: any
-  IntType: any
-  ItemId: any
-  JsonField: any
-  MetaTagAttributes: any
-  UploadId: any
+  BooleanType: boolean
+  CustomData: Record<string, unknown>
+  DateTime: string
+  FloatType: number
+  IntType: number
+  ItemId: string
+  JsonField: unknown
+  MetaTagAttributes: Record<string, string>
+  UploadId: string
 }
 
 export type ArticleModelContentField = {
@@ -30,6 +30,7 @@ export type ArticleModelContentField = {
 }
 
 export type ArticleModelFilter = {
+  AND?: InputMaybe<Array<InputMaybe<ArticleModelFilter>>>
   OR?: InputMaybe<Array<InputMaybe<ArticleModelFilter>>>
   _createdAt?: InputMaybe<CreatedAtFilter>
   _firstPublishedAt?: InputMaybe<PublishedAtFilter>
@@ -40,62 +41,60 @@ export type ArticleModelFilter = {
   _unpublishingScheduledAt?: InputMaybe<PublishedAtFilter>
   _updatedAt?: InputMaybe<UpdatedAtFilter>
   content?: InputMaybe<StructuredTextFilter>
-  createdAt?: InputMaybe<CreatedAtFilter>
   id?: InputMaybe<ItemIdFilter>
   image?: InputMaybe<FileFilter>
   slug?: InputMaybe<SlugFilter>
   subtitle?: InputMaybe<StringFilter>
   title?: InputMaybe<StringFilter>
-  updatedAt?: InputMaybe<UpdatedAtFilter>
 }
 
 export enum ArticleModelOrderBy {
-  CreatedAtAsc = "_createdAt_ASC",
-  CreatedAtDesc = "_createdAt_DESC",
-  FirstPublishedAtAsc = "_firstPublishedAt_ASC",
-  FirstPublishedAtDesc = "_firstPublishedAt_DESC",
-  IsValidAsc = "_isValid_ASC",
-  IsValidDesc = "_isValid_DESC",
-  PublicationScheduledAtAsc = "_publicationScheduledAt_ASC",
-  PublicationScheduledAtDesc = "_publicationScheduledAt_DESC",
-  PublishedAtAsc = "_publishedAt_ASC",
-  PublishedAtDesc = "_publishedAt_DESC",
-  StatusAsc = "_status_ASC",
-  StatusDesc = "_status_DESC",
-  UnpublishingScheduledAtAsc = "_unpublishingScheduledAt_ASC",
-  UnpublishingScheduledAtDesc = "_unpublishingScheduledAt_DESC",
+  _CreatedAtAsc = "_createdAt_ASC",
+  _CreatedAtDesc = "_createdAt_DESC",
+  _FirstPublishedAtAsc = "_firstPublishedAt_ASC",
+  _FirstPublishedAtDesc = "_firstPublishedAt_DESC",
+  _IsValidAsc = "_isValid_ASC",
+  _IsValidDesc = "_isValid_DESC",
+  _PublicationScheduledAtAsc = "_publicationScheduledAt_ASC",
+  _PublicationScheduledAtDesc = "_publicationScheduledAt_DESC",
+  _PublishedAtAsc = "_publishedAt_ASC",
+  _PublishedAtDesc = "_publishedAt_DESC",
+  _StatusAsc = "_status_ASC",
+  _StatusDesc = "_status_DESC",
+  _UnpublishingScheduledAtAsc = "_unpublishingScheduledAt_ASC",
+  _UnpublishingScheduledAtDesc = "_unpublishingScheduledAt_DESC",
+  _UpdatedAtAsc = "_updatedAt_ASC",
+  _UpdatedAtDesc = "_updatedAt_DESC",
   IdAsc = "id_ASC",
   IdDesc = "id_DESC",
   SubtitleAsc = "subtitle_ASC",
   SubtitleDesc = "subtitle_DESC",
   TitleAsc = "title_ASC",
   TitleDesc = "title_DESC",
-  UpdatedAtAsc = "updatedAt_ASC",
-  UpdatedAtDesc = "updatedAt_DESC",
 }
 
 /** Record of type Article (article) */
 export type ArticleRecord = RecordInterface & {
   __typename?: "ArticleRecord"
   _createdAt: Scalars["DateTime"]
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars["String"]>
   _firstPublishedAt?: Maybe<Scalars["DateTime"]>
   _isValid: Scalars["BooleanType"]
   _modelApiKey: Scalars["String"]
   _publicationScheduledAt?: Maybe<Scalars["DateTime"]>
   _publishedAt?: Maybe<Scalars["DateTime"]>
-  /** SEO meta tags */
+  /** Generates SEO and Social card meta tags to be used in your frontend */
   _seoMetaTags: Array<Tag>
   _status: ItemStatus
   _unpublishingScheduledAt?: Maybe<Scalars["DateTime"]>
   _updatedAt: Scalars["DateTime"]
   content: ArticleModelContentField
-  createdAt: Scalars["DateTime"]
   id: Scalars["ItemId"]
   image?: Maybe<FileField>
   slug: Scalars["String"]
   subtitle: Scalars["String"]
   title: Scalars["String"]
-  updatedAt: Scalars["DateTime"]
 }
 
 /** Record of type Article (article) */
@@ -133,6 +132,7 @@ export type ColorField = {
   __typename?: "ColorField"
   alpha: Scalars["IntType"]
   blue: Scalars["IntType"]
+  cssRgb: Scalars["String"]
   green: Scalars["IntType"]
   hex: Scalars["String"]
   red: Scalars["IntType"]
@@ -165,6 +165,8 @@ export enum FaviconType {
 export type FileField = FileFieldInterface & {
   __typename?: "FileField"
   _createdAt: Scalars["DateTime"]
+  /** The DatoCMS URL where you can edit this entity. To use this field, you need to set a X-Base-Editing-Url header in the request */
+  _editingUrl?: Maybe<Scalars["String"]>
   _updatedAt: Scalars["DateTime"]
   alt?: Maybe<Scalars["String"]>
   author?: Maybe<Scalars["String"]>
@@ -187,6 +189,7 @@ export type FileField = FileFieldInterface & {
   size: Scalars["IntType"]
   smartTags: Array<Scalars["String"]>
   tags: Array<Scalars["String"]>
+  thumbhash?: Maybe<Scalars["String"]>
   title?: Maybe<Scalars["String"]>
   url: Scalars["String"]
   video?: Maybe<UploadVideoField>
@@ -200,9 +203,9 @@ export type FileFieldAltArgs = {
 
 export type FileFieldBlurUpThumbArgs = {
   imgixParams?: InputMaybe<ImgixParams>
-  punch?: InputMaybe<Scalars["Float"]>
-  quality?: InputMaybe<Scalars["Int"]>
-  size?: InputMaybe<Scalars["Int"]>
+  punch?: Scalars["Float"]
+  quality?: Scalars["Int"]
+  size?: Scalars["Int"]
 }
 
 export type FileFieldCustomDataArgs = {
@@ -233,6 +236,8 @@ export type FileFieldUrlArgs = {
 
 export type FileFieldInterface = {
   _createdAt: Scalars["DateTime"]
+  /** The DatoCMS URL where you can edit this entity. To use this field, you need to set a X-Base-Editing-Url header in the request */
+  _editingUrl?: Maybe<Scalars["String"]>
   _updatedAt: Scalars["DateTime"]
   alt?: Maybe<Scalars["String"]>
   author?: Maybe<Scalars["String"]>
@@ -255,6 +260,7 @@ export type FileFieldInterface = {
   size: Scalars["IntType"]
   smartTags: Array<Scalars["String"]>
   tags: Array<Scalars["String"]>
+  thumbhash?: Maybe<Scalars["String"]>
   title?: Maybe<Scalars["String"]>
   url: Scalars["String"]
   video?: Maybe<UploadVideoField>
@@ -268,9 +274,9 @@ export type FileFieldInterfaceAltArgs = {
 
 export type FileFieldInterfaceBlurUpThumbArgs = {
   imgixParams?: InputMaybe<ImgixParams>
-  punch?: InputMaybe<Scalars["Float"]>
-  quality?: InputMaybe<Scalars["Int"]>
-  size?: InputMaybe<Scalars["Int"]>
+  punch?: Scalars["Float"]
+  quality?: Scalars["Int"]
+  size?: Scalars["Int"]
 }
 
 export type FileFieldInterfaceCustomDataArgs = {
@@ -349,6 +355,14 @@ export type ImgixParams = {
    * [Open Imgix reference »](https://docs.imgix.com/apis/url/bg)
    */
   bg?: InputMaybe<Scalars["String"]>
+  /**
+   * Background Removal
+   *
+   * Removes background from image.
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/rendering/background-removal/bg-remove)
+   */
+  bgRemove?: InputMaybe<Scalars["BooleanType"]>
   /**
    * Blend
    *
@@ -802,6 +816,18 @@ export type ImgixParams = {
    */
   fpZ?: InputMaybe<Scalars["FloatType"]>
   /**
+   * Frames Per Second
+   *
+   * Specifies the framerate of the generated image.
+   */
+  fps?: InputMaybe<Scalars["IntType"]>
+  /**
+   * Frame Selection
+   *
+   * Specifies the frame of an animated image to use.
+   */
+  frame?: InputMaybe<Scalars["String"]>
+  /**
    * Gamma
    *
    * Adjusts the gamma of the source image.
@@ -809,6 +835,12 @@ export type ImgixParams = {
    * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/gam)
    */
   gam?: InputMaybe<Scalars["IntType"]>
+  /**
+   * Animated Gif Quality
+   *
+   * Depends on: `fm=gif`
+   */
+  gifQ?: InputMaybe<Scalars["IntType"]>
   /**
    * Grid Colors
    *
@@ -858,6 +890,12 @@ export type ImgixParams = {
    */
   hue?: InputMaybe<Scalars["IntType"]>
   /**
+   * Frame Interval
+   *
+   * Displays every Nth frame starting with the first frame.
+   */
+  interval?: InputMaybe<Scalars["IntType"]>
+  /**
    * Invert
    *
    * Inverts the colors on the source image.
@@ -871,6 +909,12 @@ export type ImgixParams = {
    * Determine if IPTC data should be passed for JPEG images.
    */
   iptc?: InputMaybe<ImgixParamsIptc>
+  /**
+   * Animation Loop Count
+   *
+   * Specifies the number of times an animated image should repeat. A value of 0 means infinite looping.
+   */
+  loop?: InputMaybe<Scalars["IntType"]>
   /**
    * Lossless Compression
    *
@@ -1198,6 +1242,12 @@ export type ImgixParams = {
    */
   rect?: InputMaybe<Scalars["String"]>
   /**
+   * Reverse
+   *
+   * Reverses the frame order on the source animation.
+   */
+  reverse?: InputMaybe<Scalars["BooleanType"]>
+  /**
    * Rotation
    *
    * Rotates an image by a specified number of degrees.
@@ -1237,6 +1287,12 @@ export type ImgixParams = {
    * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/sharp)
    */
   sharp?: InputMaybe<Scalars["FloatType"]>
+  /**
+   * Frame Skip
+   *
+   * Skips every Nth frame starting with the first frame.
+   */
+  skip?: InputMaybe<Scalars["IntType"]>
   /**
    * Transparency
    *
@@ -1748,7 +1804,7 @@ export type Query = {
   /** Returns meta information regarding a record collection */
   _allArticlesMeta: CollectionMetadata
   /** Returns meta information regarding an assets collection */
-  _allUploadsMeta?: Maybe<CollectionMetadata>
+  _allUploadsMeta: CollectionMetadata
   /** Returns the single instance record */
   _site: Site
   /** Returns a collection of records */
@@ -1763,7 +1819,6 @@ export type Query = {
 
 /** The query root for this schema */
 export type Query_AllArticlesMetaArgs = {
-  fallbackLocales?: InputMaybe<Array<SiteLocale>>
   filter?: InputMaybe<ArticleModelFilter>
   locale?: InputMaybe<SiteLocale>
 }
@@ -1818,12 +1873,14 @@ export type QueryUploadArgs = {
 
 export type RecordInterface = {
   _createdAt: Scalars["DateTime"]
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars["String"]>
   _firstPublishedAt?: Maybe<Scalars["DateTime"]>
   _isValid: Scalars["BooleanType"]
   _modelApiKey: Scalars["String"]
   _publicationScheduledAt?: Maybe<Scalars["DateTime"]>
   _publishedAt?: Maybe<Scalars["DateTime"]>
-  /** SEO meta tags */
+  /** Generates SEO and Social card meta tags to be used in your frontend */
   _seoMetaTags: Array<Tag>
   _status: ItemStatus
   _unpublishingScheduledAt?: Maybe<Scalars["DateTime"]>
@@ -1873,6 +1930,7 @@ export type SeoField = {
   __typename?: "SeoField"
   description?: Maybe<Scalars["String"]>
   image?: Maybe<FileField>
+  noIndex?: Maybe<Scalars["BooleanType"]>
   title?: Maybe<Scalars["String"]>
   twitterCard?: Maybe<Scalars["String"]>
 }
@@ -1883,6 +1941,7 @@ export type Site = {
   faviconMetaTags: Array<Tag>
   globalSeo?: Maybe<GlobalSeoField>
   locales: Array<SiteLocale>
+  noIndex?: Maybe<Scalars["BooleanType"]>
 }
 
 export type SiteFaviconMetaTagsArgs = {
@@ -1926,12 +1985,14 @@ export type StatusFilter = {
 export type StringFilter = {
   /** Search for records with an exact match */
   eq?: InputMaybe<Scalars["String"]>
-  /** Filter records with the specified field defined (i.e. with any value) or not */
+  /** Filter records with the specified field defined (i.e. with any value) or not [DEPRECATED] */
   exists?: InputMaybe<Scalars["BooleanType"]>
   /** Filter records that equal one of the specified values */
   in?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>
   /** Filter records with the specified field set as blank (null or empty string) */
   isBlank?: InputMaybe<Scalars["BooleanType"]>
+  /** Filter records with the specified field present (neither null, nor empty string) */
+  isPresent?: InputMaybe<Scalars["BooleanType"]>
   /** Filter records based on a regular expression */
   matches?: InputMaybe<StringMatchesFilter>
   /** Exclude records with an exact match */
@@ -1948,12 +2009,14 @@ export type StringMatchesFilter = {
   regexp?: InputMaybe<Scalars["BooleanType"]>
 }
 
-/** Specifies how to filter Structured Text fields */
+/** Specifies how to filter Structured Text fields values */
 export type StructuredTextFilter = {
-  /** Filter records with the specified field defined (i.e. with any value) or not */
+  /** Filter records with the specified field defined (i.e. with any value) or not [DEPRECATED] */
   exists?: InputMaybe<Scalars["BooleanType"]>
   /** Filter records with the specified field set as blank (null or single empty paragraph) */
   isBlank?: InputMaybe<Scalars["BooleanType"]>
+  /** Filter records with the specified field present (neither null, nor empty string) */
+  isPresent?: InputMaybe<Scalars["BooleanType"]>
   /** Filter records based on a regular expression */
   matches?: InputMaybe<StringMatchesFilter>
   /** Exclude records based on a regular expression */
@@ -2082,6 +2145,7 @@ export type UploadFilenameFilter = {
 }
 
 export type UploadFilter = {
+  AND?: InputMaybe<Array<InputMaybe<UploadFilter>>>
   OR?: InputMaybe<Array<InputMaybe<UploadFilter>>>
   _createdAt?: InputMaybe<UploadCreatedAtFilter>
   _updatedAt?: InputMaybe<UploadUpdatedAtFilter>
@@ -2187,10 +2251,10 @@ export type UploadNotesFilter = {
 }
 
 export enum UploadOrderBy {
-  CreatedAtAsc = "_createdAt_ASC",
-  CreatedAtDesc = "_createdAt_DESC",
-  UpdatedAtAsc = "_updatedAt_ASC",
-  UpdatedAtDesc = "_updatedAt_DESC",
+  _CreatedAtAsc = "_createdAt_ASC",
+  _CreatedAtDesc = "_createdAt_DESC",
+  _UpdatedAtAsc = "_updatedAt_ASC",
+  _UpdatedAtDesc = "_updatedAt_DESC",
   BasenameAsc = "basename_ASC",
   BasenameDesc = "basename_DESC",
   FilenameAsc = "filename_ASC",
@@ -2290,13 +2354,32 @@ export type UploadUpdatedAtFilter = {
 
 export type UploadVideoField = {
   __typename?: "UploadVideoField"
+  alt?: Maybe<Scalars["String"]>
+  blurUpThumb?: Maybe<Scalars["String"]>
+  blurhash?: Maybe<Scalars["String"]>
   duration?: Maybe<Scalars["Int"]>
   framerate?: Maybe<Scalars["Int"]>
+  height: Scalars["IntType"]
   mp4Url?: Maybe<Scalars["String"]>
   muxAssetId: Scalars["String"]
   muxPlaybackId: Scalars["String"]
   streamingUrl: Scalars["String"]
+  thumbhash?: Maybe<Scalars["String"]>
   thumbnailUrl: Scalars["String"]
+  title?: Maybe<Scalars["String"]>
+  width: Scalars["IntType"]
+}
+
+export type UploadVideoFieldAltArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>
+  locale?: InputMaybe<SiteLocale>
+}
+
+export type UploadVideoFieldBlurUpThumbArgs = {
+  imgixParams?: InputMaybe<ImgixParams>
+  punch?: Scalars["Float"]
+  quality?: Scalars["Int"]
+  size?: Scalars["Int"]
 }
 
 export type UploadVideoFieldMp4UrlArgs = {
@@ -2306,6 +2389,11 @@ export type UploadVideoFieldMp4UrlArgs = {
 
 export type UploadVideoFieldThumbnailUrlArgs = {
   format?: InputMaybe<MuxThumbnailFormatType>
+}
+
+export type UploadVideoFieldTitleArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>
+  locale?: InputMaybe<SiteLocale>
 }
 
 /** Specifies how to filter by width */
